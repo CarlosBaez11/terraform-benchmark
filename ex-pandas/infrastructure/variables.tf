@@ -21,3 +21,18 @@ variable "script_path" {
   type        = string
 }
 
+variable "experiment_name" {
+  description = "Script initializer path"
+  type        = string
+}
+
+
+variable "source_name" {
+  description = "Script initializer path"
+  type        = string
+}
+
+variable "data_size" {
+  description = "Script initializer path"
+  type        = string
+}

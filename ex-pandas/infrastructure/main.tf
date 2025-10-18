@@ -6,7 +6,18 @@ resource "aws_instance" "this" {
   associate_public_ip_address = true
   iam_instance_profile        = aws_iam_instance_profile.this.name
   user_data_replace_on_change = true
-  user_data                   = filebase64(var.script_path)
+
+  root_block_device {
+    volume_size = 100
+    volume_type = "gp3"
+  }
+
+  user_data = templatefile("../user_data.sh", {
+    experiment_name = var.experiment_name
+    source_name     = var.source_name
+    bucket_name     = var.bucket_name
+    data_size       = var.data_size
+  })
 
   tags = {
     Name = "${var.prefix}-server"
@@ -92,7 +103,8 @@ resource "aws_iam_policy" "s3_read" {
         Effect = "Allow"
         Action = [
           "s3:GetObject",
-          "s3:ListBucket"
+          "s3:ListBucket",
+          "s3:PutObject",
         ]
         Resource = [
           # specify that you need to read from the deployment bucket
