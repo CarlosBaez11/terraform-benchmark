@@ -18,6 +18,7 @@ echo "============================================================"
 
 # copy main.py to s3
 aws s3 cp  "./${EXPERIMENT}/main.py"  s3://${BUCKET}/scripts/${EXPERIMENT}/main.py
+
 # Delete previous infrastructure folder
 rm -rf ${EXPERIMENT}/infrastructure
 # Create infrastructure folder
@@ -77,5 +78,3 @@ terraform destroy -var="script_path=${SCRIPT_PATH}"\
 echo
 echo "Execution finished. Press [any key] to exit..."
 read
-
-# uv run $EXPERIMENT/main.py $SOURCE
